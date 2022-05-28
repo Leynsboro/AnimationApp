@@ -14,22 +14,21 @@ struct Animation {
     let duration: Float
     let delay: Float
     
-    static func getPresets() -> [Animation] {
-        var animation: [Animation] = []
-        
-        let dataManager = DataManager.share
-        let animations = dataManager.animations
-        let curves = dataManager.curves
-        
-        for _ in 0...20 {
-            animation.append(Animation(animation: animations.randomElement() ?? "shake",
-                      curve: curves.randomElement() ?? "spring",
-                      force: Float.random(in: 0.3...1),
-                      duration: Float.random(in: 0.5...2),
-                      delay: Float.random(in: 0...0.4)
-            ))
-        }
-        
-        return animation
+    var description: String {
+        """
+        Animation - \(animation)
+        Curve - \(curve)
+        Force - \(String(format: "%.02f", force))
+        Duration - \(String(format: "%.02f", duration))
+        Delay - \(String(format: "%.02f", delay))
+        """
+    }
+    
+    static func getAnimation() -> Animation {
+        Animation(animation: DataManager.share.animations.randomElement()?.rawValue ?? "slideLeft",
+                  curve: DataManager.share.curves.randomElement()?.rawValue ?? "easeIn",
+                  force: Float.random(in: 1...2),
+                  duration: Float.random(in: 1...2),
+                  delay: 0.2)
     }
 }

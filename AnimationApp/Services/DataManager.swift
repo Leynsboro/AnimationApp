@@ -5,12 +5,14 @@
 //  Created by Илья Гусаров on 27.05.2022.
 //
 
-import Foundation
+import Spring
 
 class DataManager {
     
-    static let share = DataManager.init()
+    static let share = DataManager()
     
-    let animations = ["shake", "pop", "morph", "squeeze", "wobble", "swing", "flipX", "flipY"]
-    let curves = ["spring", "linear", "easeIn", "easeOut", "easeInOut"]
+    let animations = Spring.AnimationPreset.allCases
+    let curves = Spring.AnimationCurve.allCases
+    
+    private init() {}
 }

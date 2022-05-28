@@ -10,55 +10,30 @@ import Spring
 class ViewController: UIViewController {
 
     @IBOutlet var animatedView: SpringView!
-    @IBOutlet var labelCollection: [UILabel]!
-        
-    let presets = Animation.getPresets()
-    var nextAnimation: String!
-    var started = false
+    @IBOutlet var descriptionLabel: UILabel!
+    
+    
+    private var animation = Animation.getAnimation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let animation = presets.randomElement()?.animation else { return }
-        nextAnimation = animation
-        
-        for label in labelCollection {
-            label.isHidden = true
-        }
+        descriptionLabel.text = animation.description
     }
 
     @IBAction func buttonTapped(_ sender: SpringButton) {
+        descriptionLabel.text = animation.description
         
-        if !started {
-            started.toggle()
-            for label in labelCollection {
-                label.isHidden.toggle()
-            }
-        }
-        
-        guard let curve = presets.randomElement()?.curve else { return }
-        guard let duration = presets.randomElement()?.duration else { return }
-        guard let delay = presets.randomElement()?.delay else { return }
-        guard let force = presets.randomElement()?.force else { return }
-        
-        labelCollection[0].text = "Animation - \(nextAnimation!)"
-        labelCollection[1].text = "Curve - \(curve)"
-        labelCollection[2].text = "Duration - \(duration)"
-        labelCollection[3].text = "Delay - \(delay)"
-        labelCollection[4].text = "Force - \(force)"
-        
-        animatedView.animation = nextAnimation
-        animatedView.curve = curve
-        animatedView.duration = CGFloat(duration)
-        animatedView.delay = CGFloat(delay)
-        animatedView.force = CGFloat(force)
-        
-        guard let animation = presets.randomElement()?.animation else { return }
-        nextAnimation = animation
+        animatedView.animation = animation.animation
+        animatedView.curve = animation.curve
+        animatedView.duration = CGFloat(animation.duration)
+        animatedView.delay = CGFloat(animation.delay)
+        animatedView.force = CGFloat(animation.force)
         
         animatedView.animate()
         
-        sender.setTitle("Run " + nextAnimation, for: .normal)
+        animation = Animation.getAnimation()
+        
+        sender.setTitle("Run \(animation.animation)", for: .normal)
     }
     
 }
